@@ -9,6 +9,6 @@
     - name: Build Docker image
       shell: docker build -t vikashashoke/docker-job .
       args:
-        chdir: /path/to/dockerfile/directory
+        chdir: /opt
     - name: Create new container
       shell: docker container run -itd --name rockstar-container -p 9000:80 vikashashoke/docker-job
