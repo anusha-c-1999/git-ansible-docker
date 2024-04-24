@@ -1,14 +1,10 @@
 FROM centos:latest
 MAINTAINER vikashashoke@gmail.com
 
-# Create CentOS repo directory and file
-RUN mkdir -p /etc/yum.repos.d/ && \
-    touch /etc/yum.repos.d/CentOS-Base.repo && \
-    echo -e "[base]\nname=CentOS-\$releasever - Base\nbaseurl=https://mirrors.aliyun.com/centos/\$releasever/os/\$basearch/\ngpgcheck=1\ngpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial" > /etc/yum.repos.d/CentOS-Base.repo && \
-    echo -e "\n[updates]\nname=CentOS-\$releasever - Updates\nbaseurl=https://mirrors.aliyun.com/centos/\$releasever/updates/\$basearch/\ngpgcheck=1\ngpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial" >> /etc/yum.repos.d/CentOS-Base.repo && \
-    echo -e "\n[extras]\nname=CentOS-\$releasever - Extras\nbaseurl=https://mirrors.aliyun.com/centos/\$releasever/extras/\$basearch/\ngpgcheck=1\ngpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial" >> /etc/yum.repos.d/CentOS-Base.repo && \
-    echo -e "\n[centosplus]\nname=CentOS-\$releasever - Plus\nbaseurl=https://mirrors.aliyun.com/centos/\$releasever/centosplus/\$basearch/\ngpgcheck=1\ngpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial" >> /etc/yum.repos.d/CentOS-Base.repo && \
-    echo -e "\n[contrib]\nname=CentOS-\$releasever - Contrib\nbaseurl=https://mirrors.aliyun.com/centos/\$releasever/contrib/\$basearch/\ngpgcheck=1\ngpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial" >> /etc/yum.repos.d/CentOS-Base.repo
+# Use a specific CentOS mirror to avoid issues with the default mirror
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Base.repo && \
+    sed -i 's/#baseurl/baseurl/g' /etc/yum.repos.d/CentOS-Base.repo && \
+    sed -i 's/http:\/\/mirror.centos.org/https:\/\/mirrors.kernel.org/g' /etc/yum.repos.d/CentOS-Base.repo
 
 # Install Apache HTTP Server, zip, and unzip packages
 RUN yum install -y httpd zip unzip
