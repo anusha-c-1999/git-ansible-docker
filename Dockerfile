@@ -1,29 +1,23 @@
-FROM centos:latest
+FROM ubuntu:latest
 MAINTAINER vikashashoke@gmail.com
 
-# Use a specific CentOS mirror to avoid issues with the default mirror
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Base.repo && \
-    sed -i 's/#baseurl/baseurl/g' /etc/yum.repos.d/CentOS-Base.repo && \
-    sed -i 's/http:\/\/mirror.centos.org/https:\/\/mirrors.kernel.org/g' /etc/yum.repos.d/CentOS-Base.repo
+# Update package lists and install required packages
+RUN apt-get update && \
+    apt-get install -y apache2 \
+                       unzip
 
-# Install Apache HTTP Server, zip, and unzip packages
-RUN yum install -y httpd zip unzip
-
-# Add the website content
+# Download and unzip the app
 ADD https://www.free-css.com/assets/files/free-css-templates/download/page254/photogenic.zip /var/www/html/
-
 WORKDIR /var/www/html/
-
 RUN unzip photogenic.zip && \
-    cp -rvf photogenic/* . && \
+    mv photogenic/* . && \
     rm -rf photogenic photogenic.zip
 
-# Command to start Apache HTTP Server
-CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
-
-# Expose port 80 to allow outside access to the container
+# Expose port 80
 EXPOSE 80
- 
+
+# Start Apache in the foreground
+CMD ["apache2ctl", "-D", "FOREGROUND"]
 # FROM  centos:latest
 # MAINTAINER vikashashoke@gmail.com
 # RUN yum install -y httpd \
