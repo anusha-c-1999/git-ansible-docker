@@ -1,10 +1,14 @@
 - name: Create new Docker container
-  hosts: all
+  hosts: your_host
   tasks:
     - name: Generate unique container name
       set_fact:
         container_name: "git-ansible-docker-{{ ansible_date_time.iso8601_basic_short }}"
 
+    - name: Generate random port number
+      set_fact:
+        random_port: "{{ 1024 + (ansible_play_hosts_all.index(inventory_hostname) * 100) | random(start=0, end=100) }}"
+
     - name: Run Docker container
       become: yes
-      command: "docker run -itd --name {{ container_name }} -p 80:80 anushac1999/git-ansible-docker"
+      command: "docker run -itd --name {{ container_name }} -p {{ random_port }}:80 anushac1999/git-ansible-docker"
