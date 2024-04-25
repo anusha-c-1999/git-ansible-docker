@@ -1,5 +1,10 @@
-- hosts: all
+- name: Create new Docker container
+  hosts: all
   tasks:
-     - name: craete new container
-       become: yes
-       shell: docker run -itd --name git-ansible-docker -p 80:80 anushac1999/git-ansible-docker
+    - name: Set container name variable
+      set_fact:
+        container_name: "git-ansible-docker"
+
+    - name: Run Docker container
+      become: yes
+      command: "docker run -itd --name {{ container_name }} -p 80:80 anushac1999/git-ansible-docker"
