@@ -1,9 +1,9 @@
 - name: Create new Docker container
   hosts: all
   tasks:
-    - name: Set container name variable
+    - name: Generate unique container name
       set_fact:
-        container_name: "git-ansible-docker"
+        container_name: "git-ansible-docker-{{ ansible_date_time.iso8601_basic_short }}"
 
     - name: Run Docker container
       become: yes
