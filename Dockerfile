@@ -7,11 +7,11 @@ RUN apt-get update && \
                        unzip
 
 # Download and unzip the app
-ADD https://www.free-css.com/assets/files/free-css-templates/download/page295/antique-cafe.zip /var/www/html/
+ADD https://www.tooplate.com/zip-templates/2137_barista_cafe.zip /var/www/html/
 WORKDIR /var/www/html/
-RUN unzip antique-cafe.zip && \
-    mv antique-cafe/* . && \
-    rm -rf antique-cafe antique-cafe.zip
+RUN unzip 2137_barista_cafe.zip && \
+    mv 2137_barista_cafe/* . && \
+    rm -rf 2137_barista_cafe 2137_barista_cafe.zip
 
 # Expose port 80
 EXPOSE 80
