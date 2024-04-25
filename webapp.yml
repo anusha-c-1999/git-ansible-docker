@@ -1,0 +1,5 @@
+---
+- host: all
+  tasks:
+     - name: craete new container
+       shell: docker run -itd --name git-ansible-docker -p 80:80 anushac1999/git-ansible-docker
